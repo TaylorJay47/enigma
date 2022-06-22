@@ -57,6 +57,17 @@ export class AppComponent{
         this.steckerService.steckerPair(this.querySteckers[i], this.querySteckers[i + 1]);
         i++
       }
+      if (this.querySteckersTemp === undefined) {
+        this.router.navigate(
+          [],
+          {
+            queryParams: {
+              steckers: ''
+            },
+            queryParamsHandling: 'merge'
+          }
+        );
+      }
     }, 50)
 
   }
