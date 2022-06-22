@@ -1,0 +1,43 @@
+* {
+  font-family: "American Typewriter";
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.header {
+  align-content: center;
+  height: 75px;
+  background-color: darkgray;
+}
+
+.rotor-container {
+  margin-top: 10px;
+  margin-bottom: 50px;
+  max-width: 750px;
+}
+
+app-rotor {
+  flex: 1;
+  flex-grow: 1;
+  margin: 5px;
+  height: 30px;
+  min-width: 365px;
+}
+
+div.btn-group {
+  max-width: 300px;
+}
+
+.user-control-container {
+  display: flex;
+  align-items: center;
+}
+
+input {
+  margin: 10px;
+}
+
+div.debug {
+  display: block;
+}
