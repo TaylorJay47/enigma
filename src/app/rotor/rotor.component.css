@@ -1,0 +1,19 @@
+.rotor-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  padding: 10px;
+}
+
+i {
+  font-size: 2rem;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+p {
+  padding: 5px;
+  border: 2px solid darkgray;
+  border-radius: 5px;
+}

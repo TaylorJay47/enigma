@@ -1,0 +1,8 @@
+p {
+  padding: 10px;
+  width: 35px;
+  margin: 5px;
+  border: 2px solid darkgray;
+  border-radius: 5px;
+  cursor: pointer;
+}
