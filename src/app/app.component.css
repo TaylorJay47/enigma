@@ -27,6 +27,7 @@ app-rotor {
 
 div.btn-group {
   max-width: 300px;
+  margin-bottom: 20px;
 }
 
 .user-control-container {
@@ -40,4 +41,15 @@ input {
 
 div.debug {
   display: block;
+}
+
+button.run {
+  height: 30px;
+  padding-top: 3px;
+}
+
+.describe {
+  text-align: center;
+  margin-top: 30px;
+  max-width: 800px;
 }

@@ -2,6 +2,17 @@
   <h1>Taylor's Awesome Enigma Machine</h1>
 </div>
 
+<div class="describe-container">
+  <div class="describe">
+    <p>This app replicates the bahavior of the Enigma I Machine used around 1930-1940 and uses 8 rotors with a switchboard that can stecker multiple pairs of letters. Steckered pairs are applied one-way, though the original device used two-way steckered pairs.</p>
+    <p>You can interact with this app using two encoding controls: <br>
+      1: The rotors can be individually rotated. This changes the letter that is output from that rotor.<br>
+      2: Select a letter from the top row of the switchboard then select a letter from the bottom row. If your input contains a letter from the top row that you've selected, it will be swapped for the corresponding letter in the bottom row.<br>
+    When you have your desired settings, the url will contain them and can be shared for others to decrypt your messages. Select Encode or Decode, enter a word in the input field and click Run.</p>
+    <p>Note: Spaces and punctuation will not decode correctly since the original device did not use either. You can use them when encoding, but the decoded string will contain "random" letters between words.</p>
+  </div>
+</div>
+
 <div>
   <div class="rotor-container">
     <app-rotor [numeral]='rotorSelection[0]'
@@ -64,9 +75,10 @@
 
 <div class="user-control-container">
   <label for="input">Input: </label>
-  <input class="input" id="input" type="text" [formControl]="inputControl" (change)="processInput()">
+  <input class="input" id="input" type="text" [formControl]="inputControl">
   <label for="output">Output: </label>
   <input class="output" id="output" type="text" [formControl]="outputControl">
+  <button class="btn btn-outline-primary run" (click)="processInput()">Run</button>
 </div>
 
 <div class="debug" *ngIf="debug">
