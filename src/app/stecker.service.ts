@@ -13,52 +13,67 @@ export class SteckerService {
   startingElement: any;
   steckeredElement: any;
   shouldStecker: boolean = true;
+  lines: LeaderLine[] = [];
+  canChangeStecker: boolean = true;
 
   constructor(private router: Router) { }
 
   steckerPair(orig: string, steck: string) {
-    this.setOriginalValue(orig);
-    this.setSteckeredValue(steck);
-    console.log('Steckering ' + orig + ' and ' + steck);
+    if (this.canChangeStecker) {
+      this.setOriginalValue(orig);
+      this.setSteckeredValue(steck);
+    }
   }
 
   setOriginalValue(value: string) {
-    for (let i = 0; i < this.steckeredPair.length; i++) {
-      if (value === this.steckeredPair[i]) {
-        this.shouldStecker = false;
+    if (this.canChangeStecker) {
+      for (let i = 0; i < this.steckeredPair.length; i++) {
+        if (value === this.steckeredPair[i]) {
+          this.shouldStecker = false;
+        }
+        i++;
       }
-      i++;
+      if (this.shouldStecker) {
+        this.originalValue = value;
+        this.startingElement = document.querySelector('.original .' + this.originalValue);
+      }
+      this.shouldStecker = true;
     }
-    if (this.shouldStecker) {
-      console.log(value);
-      this.originalValue = value;
-      this.startingElement = document.querySelector('.original .' + this.originalValue);
-    }
-    this.shouldStecker = true;
   }
 
   setSteckeredValue(value: string) {
-    if (this.originalValue != '') {
-      console.log(value);
-      this.steckeredValue = value;
-      this.steckeredElement = document.querySelector('.change-to .' + this.steckeredValue);
-      const line = new LeaderLine(this.startingElement, this.steckeredElement, {dash: {animation: true}});
-      line.color = 'skyblue';
-      line.setOptions({startSocket: 'bottom', endSocket: 'top'});
-      this.steckeredPair.push(this.originalValue, value);
-      this.resetValues();
-      console.log(this.steckeredPair);
-      this.router.navigate(
-        [],
-        {
-          queryParams: {
-            steckers: this.steckeredPair.toString()
-          },
-          queryParamsHandling: 'merge'
-        }
-      );
-    } else {
-      console.log('No initial value selected');
+    if (this.canChangeStecker) {
+      if (this.originalValue != '') {
+        this.steckeredValue = value;
+        this.steckeredElement = document.querySelector('.change-to .' + this.steckeredValue);
+        this.lines!.push(new LeaderLine(this.startingElement, this.steckeredElement, {dash: {animation: true}}))
+        // @ts-ignore
+        this.lines[this.lines?.length - 1].color = 'skyblue';
+        // @ts-ignore
+        this.lines[this.lines?.length - 1].setOptions({startSocket: 'bottom', endSocket: 'top'});
+        this.steckeredPair.push(this.originalValue, value);
+        this.resetValues();
+        this.router.navigate(
+          [],
+          {
+            queryParams: {
+              steckers: this.steckeredPair.toString()
+            },
+            queryParamsHandling: 'merge'
+          }
+        );
+      } else {
+        console.log('No initial value selected');
+      }
+    }
+  }
+
+  removeLines() {
+    if (this.canChangeStecker)  {
+      for (let line of this.lines!) {
+        line.remove();
+      }
+      this.lines = [];
     }
   }
 

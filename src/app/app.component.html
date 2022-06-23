@@ -16,41 +16,50 @@
 <div>
   <div class="rotor-container">
     <app-rotor [numeral]='rotorSelection[0]'
+               [canChangeRotation] = 'canChangeSettings'
                [(rotation)]='rotation[0]'
                (rotationChange)="updateRotation($event, 0)"
                (selectCharEvent)="updateSelectedChars($event, 0)"
                (selectSettingEvent)="updateRotorSettings($event, 0)"></app-rotor>
     <app-rotor [numeral]='rotorSelection[1]'
+               [canChangeRotation] = 'canChangeSettings'
+
                [(rotation)]='rotation[1]'
                (rotationChange)="updateRotation($event, 1)"
                (selectCharEvent)="updateSelectedChars($event, 1)"
                (selectSettingEvent)="updateRotorSettings($event, 1)"></app-rotor>
     <app-rotor [numeral]='rotorSelection[2]'
+               [canChangeRotation] = 'canChangeSettings'
                [(rotation)]='rotation[2]'
                (rotationChange)="updateRotation($event, 2)"
                (selectCharEvent)="updateSelectedChars($event, 2)"
                (selectSettingEvent)="updateRotorSettings($event, 2)"></app-rotor>
     <app-rotor [numeral]='rotorSelection[3]'
+               [canChangeRotation] = 'canChangeSettings'
                [(rotation)]='rotation[3]'
                (rotationChange)="updateRotation($event, 3)"
                (selectCharEvent)="updateSelectedChars($event, 3)"
                (selectSettingEvent)="updateRotorSettings($event, 3)"></app-rotor>
     <app-rotor [numeral]='rotorSelection[4]'
+               [canChangeRotation] = 'canChangeSettings'
                [(rotation)]='rotation[4]'
                (rotationChange)="updateRotation($event, 4)"
                (selectCharEvent)="updateSelectedChars($event, 4)"
                (selectSettingEvent)="updateRotorSettings($event, 4)"></app-rotor>
     <app-rotor [numeral]='rotorSelection[5]'
+               [canChangeRotation] = 'canChangeSettings'
                [(rotation)]='rotation[5]'
                (rotationChange)="updateRotation($event, 5)"
                (selectCharEvent)="updateSelectedChars($event, 5)"
                (selectSettingEvent)="updateRotorSettings($event, 5)"></app-rotor>
     <app-rotor [numeral]='rotorSelection[6]'
+               [canChangeRotation] = 'canChangeSettings'
                [(rotation)]='rotation[6]'
                (rotationChange)="updateRotation($event, 6)"
                (selectCharEvent)="updateSelectedChars($event, 6)"
                (selectSettingEvent)="updateRotorSettings($event, 6)"></app-rotor>
     <app-rotor [numeral]='rotorSelection[7]'
+               [canChangeRotation] = 'canChangeSettings'
                [(rotation)]='rotation[7]'
                (rotationChange)="updateRotation($event, 7)"
                (selectCharEvent)="updateSelectedChars($event, 7)"
@@ -58,43 +67,37 @@
   </div>
 </div>
 
-<div class="switch-board-container">
-  <app-switch-board class="original" [setting]="'original'"></app-switch-board>
-  <app-switch-board class="change-to" [setting]="'change-to'"></app-switch-board>
+<div>
+  <div class="switch-board-container">
+    <app-switch-board class="original" [setting]="'original'"></app-switch-board>
+    <app-switch-board class="change-to" [setting]="'change-to'"></app-switch-board>
+  </div>
 </div>
 
 <div>
   <div class="btn-group" role="group">
-    <input type="radio" [formControl]="radio" [value]="'Encode'" class="btn-check" id="btnradio1" (change)="changeMethod()">
+    <input type="radio" [formControl]="radio" [value]="'Encode'" [(ngModel)]="encodeString" class="btn-check" id="btnradio1" (change)="changeMethod()">
     <label class="btn btn-outline-primary" for="btnradio1">Encode</label>
 
-    <input type="radio" [formControl]="radio" [value]="'Decode'" class="btn-check" id="btnradio2" (change)="changeMethod()">
+    <input type="radio" [formControl]="radio" [value]="'Decode'" [(ngModel)]="encodeString" class="btn-check" id="btnradio2" (change)="changeMethod()">
     <label class="btn btn-outline-primary" for="btnradio2">Decode</label>
   </div>
+
+  <div>
+    <button class="btn btn-outline-primary reset reset-rotors" (click)="resetRotors()">Reset Rotors</button>
+    <button class="btn btn-outline-primary reset reset-steckers" (click)="resetSteckers()">Reset Switchboard</button>
+  </div>
+
+  <label class="btn btn-outline-primary lock-settings" for="lockSettings">{{this.lockSettingsString}}</label>
+  <input type="checkbox" [formControl]="lockSettingsControl" id="lockSettings" class="btn-check" (click)="lockSettings()">
 </div>
 
 <div class="user-control-container">
   <label for="input">Input: </label>
-  <input class="input" id="input" type="text" [formControl]="inputControl">
+  <input class="text input" id="input" type="text" [formControl]="inputControl" (keydown.enter)="processInput()">
   <label for="output">Output: </label>
-  <input class="output" id="output" type="text" [formControl]="outputControl">
+  <input class="text output" id="output" type="text" [formControl]="outputControl">
   <button class="btn btn-outline-primary run" (click)="processInput()">Run</button>
-</div>
-
-<div class="debug" *ngIf="debug">
-  <div class="debug-chars">
-    <p>Current rotor settings are: </p>
-    <p *ngFor="let char of selectedChars">{{char}}</p>
-  </div>
-  <div>
-    <p>Current pairs are: </p>
-    <p *ngFor="let pair of steckerService.steckeredPair">{{pair}},</p>
-  </div>
-
-  <p *ngFor="let setting of rotorSettings">{{setting}}</p>
-</div>
-
-<div>
-  <button class="debug btn btn-outline-secondary" (click)="changeDebug()">Debug</button>
+  <button class="btn btn-outline-primary clear" (click)="clearInput()">Clear</button>
 </div>
 

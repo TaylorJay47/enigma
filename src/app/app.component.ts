@@ -1,7 +1,7 @@
 import {Component, HostListener, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import { SteckerService } from "./stecker.service";
 import { LogicService } from "./logic.service";
-import {FormControl} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {ActivatedRoute, ActivatedRouteSnapshot, Params, Router} from "@angular/router";
 import {RotorComponent} from "./rotor/rotor.component";
 
@@ -16,6 +16,7 @@ export class AppComponent{
   radio = new FormControl();
   inputControl = new FormControl();
   outputControl = new FormControl();
+  lockSettingsControl = new FormControl();
 
   title = 'enigma';
   rotorSelection = ['I','II','III','IV','V','VI','VII','VIII'];
@@ -25,12 +26,14 @@ export class AppComponent{
   pair: string[] = this.steckerService.steckeredPair;
   input: string[] = [];
   output: string[] = [];
+  encodeString: string = 'Encode';
   encode: boolean = true;
-  debug: boolean = false;
   selectedCharsString: string = '';
   rotationsTemp: string = '';
   querySteckersTemp: string = '';
   querySteckers: string[] = [];
+  lockSettingsString: string = 'Lock Settings';
+  canChangeSettings: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -69,15 +72,68 @@ export class AppComponent{
         );
       }
     }, 50)
+  }
 
+  resetRotors() {
+    if (this.canChangeSettings) {
+      this.rotation = [0, 0, 0, 0, 0, 0, 0, 0];
+      this.router.navigate(
+        [],
+        {
+          queryParams: {
+            rotation: ''
+          },
+          queryParamsHandling: 'merge'
+        }
+      );
+    }
+  }
+
+  resetSteckers() {
+    if (this.canChangeSettings) {
+      this.steckerService.steckeredPair = [];
+      this.steckerService.removeLines();
+      this.router.navigate(
+        [],
+        {
+          queryParams: {
+            steckers: ''
+          },
+          queryParamsHandling: 'merge'
+        }
+      );
+    }
+  }
+
+  lockSettings() {
+    switch (this.lockSettingsString) {
+      case 'Lock Settings':
+        this.steckerService.canChangeStecker = false;
+        this.canChangeSettings = false;
+        this.lockSettingsString = 'Unlock Settings';
+        break;
+      case 'Unlock Settings':
+        this.steckerService.canChangeStecker = true;
+        this.canChangeSettings = true;
+        this.lockSettingsString = 'Lock Settings';
+        break;
+    }
   }
 
   processInput() {
     if (this.encode) {
       this.outputControl.setValue(this.logicService.encodeString(this.inputControl.value))
+      this.steckerService.canChangeStecker = false;
+      this.canChangeSettings = false;
+      this.lockSettingsString = 'Unlock Settings';
     } else {
       this.outputControl.setValue(this.logicService.decodeString(this.inputControl.value))
     }
+  }
+
+  clearInput() {
+    this.inputControl.setValue('');
+    this.outputControl.setValue('');
   }
 
   updateRotation(val: number, index: number) {
@@ -111,9 +167,5 @@ export class AppComponent{
         this.encode = false;
         break;
     }
-  }
-
-  changeDebug() {
-    this.debug = !this.debug;
   }
 }

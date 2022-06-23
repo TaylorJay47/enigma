@@ -1,5 +1,5 @@
 * {
-  font-family: "American Typewriter";
+  font-family: "American Typewriter", "Bahnschrift", serif;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -25,9 +25,23 @@ app-rotor {
   min-width: 365px;
 }
 
+.switch-board-container {
+  max-width: 1200px;
+}
+
 div.btn-group {
   max-width: 300px;
   margin-bottom: 20px;
+}
+
+.reset {
+  margin-left: 10px;
+  max-height: 38px;
+}
+
+.lock-settings {
+  margin-left: 10px;
+  max-height: 38px;
 }
 
 .user-control-container {
@@ -39,11 +53,21 @@ input {
   margin: 10px;
 }
 
+.text {
+  width: 400px;
+}
+
 div.debug {
   display: block;
 }
 
 button.run {
+  height: 30px;
+  padding-top: 3px;
+}
+
+button.clear {
+  margin-left: 10px;
   height: 30px;
   padding-top: 3px;
 }

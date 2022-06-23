@@ -10,6 +10,7 @@ export class RotorComponent implements OnInit {
   @Input() numeral: string = '';
   @Input() activeChar: number = 0;
   @Input() rotation: number = 0;
+  @Input() canChangeRotation: boolean = true;
   @Output() rotationChange = new EventEmitter<number>();
   @Output() selectSettingEvent = new EventEmitter<string>();
   @Output() selectCharEvent = new EventEmitter<string>();
@@ -46,29 +47,37 @@ export class RotorComponent implements OnInit {
     this.setup();
   }
 
+  ngOnChanges() {
+    this.setup();
+  }
+
   wiggle() {
     this.right();
     this.left();
   }
 
   left() {
-    if (this.rotation > 0) {
-      this.rotation -= 1;
-    } else {
-      this.rotation = 25;
+    if (this.canChangeRotation) {
+      if (this.rotation > 0) {
+        this.rotation -= 1;
+      } else {
+        this.rotation = 25;
+      }
+      this.rotationChange.emit(this.rotation);
+      this.setup();
     }
-    this.rotationChange.emit(this.rotation);
-    this.setup();
   }
 
   right() {
-    if (this.rotation < 26) {
-      this.rotation += 1;
-    } else {
-      this.rotation = 1;
+    if (this.canChangeRotation) {
+      if (this.rotation < 26) {
+        this.rotation += 1;
+      } else {
+        this.rotation = 1;
+      }
+      this.rotationChange.emit(this.rotation);
+      this.setup();
     }
-    this.rotationChange.emit(this.rotation);
-    this.setup();
   }
 
 
