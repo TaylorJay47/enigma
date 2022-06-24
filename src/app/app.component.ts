@@ -34,6 +34,7 @@ export class AppComponent{
   querySteckers: string[] = [];
   lockSettingsString: string = 'Lock Settings';
   canChangeSettings: boolean = true;
+  lockIcon: string = 'bi bi-unlock';
 
   constructor(
     private route: ActivatedRoute,
@@ -111,11 +112,14 @@ export class AppComponent{
         this.steckerService.canChangeStecker = false;
         this.canChangeSettings = false;
         this.lockSettingsString = 'Unlock Settings';
+        this.lockIcon = 'bi bi-lock';
+
         break;
       case 'Unlock Settings':
         this.steckerService.canChangeStecker = true;
         this.canChangeSettings = true;
         this.lockSettingsString = 'Lock Settings';
+        this.lockIcon = 'bi bi-unlock';
         break;
     }
   }
@@ -125,7 +129,7 @@ export class AppComponent{
       this.outputControl.setValue(this.logicService.encodeString(this.inputControl.value))
       this.steckerService.canChangeStecker = false;
       this.canChangeSettings = false;
-      this.lockSettingsString = 'Unlock Settings';
+      this.lockSettings();
     } else {
       this.outputControl.setValue(this.logicService.decodeString(this.inputControl.value))
     }

@@ -39,6 +39,12 @@ div.btn-group {
   max-height: 38px;
 }
 
+.lock-icon {
+  font-size: 1.5rem;
+  margin-top: -1px;
+  margin-right: 5px;
+}
+
 .lock-settings {
   margin-left: 10px;
   max-height: 38px;

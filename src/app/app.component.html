@@ -88,7 +88,7 @@
     <button class="btn btn-outline-primary reset reset-steckers" (click)="resetSteckers()">Reset Switchboard</button>
   </div>
 
-  <label class="btn btn-outline-primary lock-settings" for="lockSettings">{{this.lockSettingsString}}</label>
+  <label class="btn btn-outline-primary lock-settings" for="lockSettings"><i class="lock-icon" [ngClass]="lockIcon"></i>{{this.lockSettingsString}}</label>
   <input type="checkbox" [formControl]="lockSettingsControl" id="lockSettings" class="btn-check" (click)="lockSettings()">
 </div>
 
