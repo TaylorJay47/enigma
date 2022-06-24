@@ -9,6 +9,7 @@ export class LogicService {
   steckeredPairs: string[] = this.steckerService.steckeredPair;
   alphabet: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   rotatedRotors: string[] = [];
+  regex: RegExp = /[a-zA-Z]/;
 
   constructor(private steckerService: SteckerService) { }
 
@@ -53,10 +54,12 @@ export class LogicService {
     let splitStr = str.split('');
     let rot = 0;
     for (let n = 0; n < splitStr.length; n++) {
-      for (let i = 0; i <= 7; i++) {
-        splitStr[n] = this.encodeChar(splitStr[n], i, rot);
+      if (this.regex.test(splitStr[n])) {
+        for (let i = 0; i <= 7; i++) {
+          splitStr[n] = this.encodeChar(splitStr[n], i, rot);
+        }
+        rot++
       }
-      rot++
     }
     return splitStr.join('');
   }
@@ -65,10 +68,12 @@ export class LogicService {
     let splitStr = str.split('');
     let rot = 0;
     for (let n = 0; n < splitStr.length; n++) {
-      for (let i = 7; i >= 0; i--) {
-        splitStr[n] = this.decodeChar(splitStr[n], i, rot);
+      if (this.regex.test(splitStr[n])) {
+        for (let i = 7; i >= 0; i--) {
+          splitStr[n] = this.decodeChar(splitStr[n], i, rot);
+        }
+        rot++
       }
-      rot++
     }
     str = splitStr.join('')
     return this.destecker(str);
